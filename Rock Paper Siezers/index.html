@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <title>אבן נייר ומספריים</title>
+</head>
+<body>
+    <section class="game">
+        <div class="score">
+            <div class="player-score">
+                <h2 class="Player-name">שחקן</h2>
+                <p>0</p>
+            </div>
+            <div class="computer-score">
+                <h2 class="Computer-name">מחשב</h2>
+                <p>0</p>
+            </div>
+        </div>
+        <div class="intro">
+            <h1>אבן נייר ומספריים</h1>
+            <h3>הראשון שמגיע ל3 מנצח</h3>
+
+            <button>בא נשחק</button>
+        </div>
+        <div class="match fadeOut">
+            <h2 class="winner">תבחר אופציה</h2>
+            <div class="hands">
+                <img class="player-hand" src="./assets/rock.png" alt="">
+                <img class="computer-hand" src="./assets/rock.png" alt="">
+            </div>
+            <div class="options">
+                <button class="rock">אבן</button>
+                <button class="paper">נייר</button>
+                <button class="scissors">מספריים</button>
+            </div>
+        </div>
+        <div class="restart-game">
+            <h1 class="winnerText">המנצח</h1>
+            <button>?עוד משחק</button>
+            <img class="firework1" src="./assets/fireworks.png" alt="">
+            <img class="firework2" src="./assets/fireworks.png" alt="">
+        </div>
+    </section>
+
+    <script src="/app.js"></script>
+    <script>document.getElementById("buttonsubmit").style.visibility = "hidden";</script>
+
+</body>
+</html>

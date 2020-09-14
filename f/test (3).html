@@ -1,0 +1,220 @@
+<html>
+    <head>
+        <title>מקמבנים את המכללה גירסה 1.0.2</title>
+        <meta charset="UTF-8">
+        <script>
+            function parseFloatRadix(num, radix) {
+                return parseInt(num.replace('.', ''), radix) /
+                Math.pow(radix, (num.split('.')[1] || '').length)
+            }
+
+            convertBase2Base = ()=>{
+                let number =  document.getElementById("inputConvertion").value
+                console.log("number",number)
+                
+                let fromBase = document.getElementById("fromBase").value
+                console.log("fromBase",fromBase)
+
+                let toBase = document.getElementById("toBase").value
+                console.log("toBase",toBase)
+
+                let toDec = parseFloatRadix(number.toString(),fromBase)
+                console.log("toDeec",toDec)
+                console.log("toDec.toString(toBase)",toDec.toString(toBase))
+
+                document.getElementById("outputConvertion").innerHTML=''
+                document.getElementById("outputConvertion").innerHTML+=toDec.toString(toBase)
+
+                // return toDec.toString(toBase)
+            }
+            convertBase2Base2 = (num,fromBase,toBase)=>{
+                let toDec = parseFloatRadix(num.toString(),fromBase)
+                return toDec.toString(toBase)
+            }
+            function getSignedInteger(num) {
+                let bits = num.toString()
+                let negative = (bits[0] === '1');
+                if (negative) {
+                    let inverse = '';
+                    for (let i = 0; i < bits.length; i++) {
+                        inverse += (bits[i] === '0' ? '1' : '0');
+                    }
+                    return (parseInt(inverse, 2) + 1) * -1;
+                } else {
+                    return parseInt(bits, 2);
+                }
+            }
+            function calcUnsing(){
+                let retval
+                let num1 = document.getElementById("num1").value;
+                let num2 = document.getElementById("num2").value;
+                let num399 = document.getElementById("num399").value;
+
+                console.log("num1",num1," num2",num2," num3",num399);
+                let base = document.getElementById("calcBase").value
+                let op = document.getElementById("option").value
+                let solutionBase = document.getElementById("solutionBase").value                
+                
+                let num1dec
+                let num2dec
+
+        
+
+                if (base != "2Complement")
+                {
+                    num1dec= +convertBase2Base2(num1.toString(),base,10)
+                    num2dec= +convertBase2Base2(num2.toString(),base,10)
+                }
+                else{
+                    num1dec = getSignedInteger(num1)
+                    num2dec = getSignedInteger(num2)
+                }
+
+                switch (op) {
+                    case '+':
+                        retval=num1dec+num2dec
+                        break;
+                    case '-':
+                        retval = num1dec-num2dec
+                        break;
+                    case '/':
+                        retval = num1dec/num2dec
+                        break;
+                    case '*':
+                        retval = num1dec*num2dec
+                        break;
+                }
+                lengthNumber
+                document.getElementById("solution").innerHTML=''
+                document.getElementById("lengthNumber").innerHTML=''
+                if(solutionBase!="2Complement"){
+                    document.getElementById("solution").innerHTML+=retval.toString(solutionBase)
+                    document.getElementById("lengthNumber").innerHTML+=retval.toString(solutionBase).length
+                }
+                else {
+                    document.getElementById("solution").innerHTML+=convertFromDecTo2comp(retval.toString())
+                    document.getElementById("lengthNumber").innerHTML+=convertFromDecTo2comp(retval.toString()).toString().length
+                }
+                let a =  document.getElementById("solution");
+                let b = a.innerHTML;
+                let c = Number(num399) + 2;
+                console.log( Number(b.toString(num1)).toFixed(c))
+                a.innerHTML =  Number(b.toString(num1)).toFixed(c);
+
+
+                console.log(a);
+                // a.innerHTML =  b.slice(0,c);
+            }
+            function convertFromDecTo2comp(num){
+                let numTemp = Math.abs(+num)
+                let retval = '0' + convertBase2Base2(numTemp,10,2).toString()
+                if(num<0){
+                    let newNum = Array.from(retval).map(v=>v==0?'1':'0').reduce((acc,val)=>acc+val)
+                    retval = convertBase2Base2((+convertBase2Base2(newNum,2,10) + 1).toString(),10,2)
+                }
+                return retval
+            }
+
+        </script>
+    </head>
+    <body>
+        <div style="width: auto; border: 4px; border-color: black; border-style: solid; margin: 10px; padding: 30px; align-items: center;">
+            <h2>המרת מספר מבסיס לבסיס</h2>
+            הכנס מספר
+            <input id="inputConvertion" type="number"><br>
+            בחר בסיס מקור
+            <select name="frombase" id="fromBase">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="16">16</option>     
+            </select><br>
+            בחר בסיס יעד
+            <select name="tobase" id="toBase">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="16">16</option>     
+            </select><br>
+            <button onclick="convertBase2Base()">המר</button>
+            <div id="outputConvertion"></div>
+        </div>
+        <br>
+        <div style="width: auto; border: 4px; border-color: black; border-style: solid; margin: 10px; padding: 30px; align-items: center;">
+            <h2>מחשבון</h2>
+            <h4>בחר בסיס לחישוב המספרים</h4>
+            <select id="calcBase">
+                <option value="2">2</option>
+                <option value="2Complement">2Complement</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="16">16</option>     
+            </select><br>           
+            <input type="number" id="num1">
+            <select id="option">
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/">/</option>
+            </select>
+            <input type="number" id="num2"><br>
+            <h4>בחר לצפייה בתוצאה לפי בסיס רצוי</h4>
+            <select id="solutionBase">
+                <option value="2">2</option>
+                <option value="2Complement">2Complement</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="16">16</option>     
+            </select><br>
+           
+            <h4>בחר מספר ספרות אחרי הנקודה לעיגול</h4>
+
+            <input type="number" id="num399"><br>
+            <br><br>
+            <button onclick="calcUnsing()">חשב</button><br>
+            <p>
+                :התוצאה
+                <br><label id="solution"></label>
+            </p>
+            <p>
+                : אורך המספר שהתקבל בתוצאה
+                <br><label id="lengthNumber"></label>
+            </p>
+            <h4>כלל: אין מספר בינרי מתחת לאפס, ואם נתנו מספר קטן פחות מספר גדול זה תמיד יהיה חריגה</h4>
+        </div>
+
+        <a href="https://www.exploringbinary.com/twos-complement-converter/">אתר לחישוב משלים לשתיים</a><br>
+        <h3> אתר נוסף לפתרון משוואות עם אופרטורים, 
+            שהתגלה על ידי חכם הרזים איש האשכולות שוקד על תלמודו לילות כימים 
+            הלא הוא יכירנו ומיועדנו יואל בורוכוב</h3>           
+        <a href="https://www.wolframalpha.com/widget/widgetPopup.jsp?p=v&id=4c86f3bbcab249f879058d1825887571&title=Boolean%20Algebra%20Calculator&theme=blue&i0=a%20xor%20b%20xor%20c&podSelect=&includepodid=Input&includepodid=TruthTable&includepodid=MinimalForms&includepodid=OtherForms&includepodid=LogicCircuit&includepodid=VennDiagram&showAssumptions=1&showWarnings=1">אתר לפתרון משוואות של "או" "וגם" ושאר אופרטורים</a>
+        <h3>אתר לבניית ומציאת משוואות על ידי מפות קרנו - קרדיט ליחיאל רווה</h3>           
+        <a href="https://www.charlie-coleman.com/experiments/kmap/">מפות קרנו</a>
+        <h3>אתר לבניית נוסף ליצירת מפות קרנו על פי טבלאות אמת - קרדיט ליחיאל רווה</h3>           
+        <a href="http://electronics-course.com/karnaugh-map">יצירת מפות קרנו</a>
+    </body>
+</html>
